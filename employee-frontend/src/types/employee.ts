@@ -6,7 +6,7 @@ export interface Employee {
   name: string;
   email: string;
   position: RoleType;
-}
+} 
 
 export interface PaginationInfo {
   currentPage: number;

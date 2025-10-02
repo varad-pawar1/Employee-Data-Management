@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Employee, PaginatedResponse } from "../types/employee";
+import type { Employee } from "../types/employee";
 import { config, API_ENDPOINTS } from "../utils/config";
 
 const API = axios.create({
