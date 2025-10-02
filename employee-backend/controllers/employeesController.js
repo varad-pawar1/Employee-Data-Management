@@ -12,35 +12,9 @@ export const createEmployee = (db) => (req, res) => {
 };
 
 export const getEmployees = (db) => (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const offset = (page - 1) * limit;
-
-    db.get(`SELECT COUNT(*) as total FROM employees`, [], (countErr, countRow) => {
-        if (countErr) return res.status(500).json({ error: countErr.message });
-
-        const totalEmployees = countRow?.total || 0;
-        const totalPages = Math.ceil(totalEmployees / limit) || 1;
-
-        db.all(
-            `SELECT * FROM employees ORDER BY id DESC LIMIT ? OFFSET ?`,
-            [limit, offset],
-            (err, rows) => {
-                if (err) return res.status(500).json({ error: err.message });
-
-                res.json({
-                    data: rows,
-                    pagination: {
-                        currentPage: page,
-                        totalPages,
-                        totalEmployees,
-                        hasNext: page < totalPages,
-                        hasPrev: page > 1,
-                        limit,
-                    },
-                });
-            }
-        );
+    db.all(`SELECT * FROM employees ORDER BY id DESC`, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(rows);
     });
 };
 

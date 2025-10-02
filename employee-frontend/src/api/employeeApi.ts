@@ -36,10 +36,8 @@ API.interceptors.response.use(
   }
 );
 
-export const getEmployees = (page: number = 1, limit: number = 10) =>
-  API.get<PaginatedResponse<Employee>>(API_ENDPOINTS.EMPLOYEES, {
-    params: { page, limit },
-  }).then((response) => {
+export const getEmployees = () =>
+  API.get<Employee[]>(API_ENDPOINTS.EMPLOYEES).then((response) => {
     console.log("✅ Fetched Employees Data:", response.data);
     return response;
   });

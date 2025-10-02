@@ -23,9 +23,11 @@ function App() {
     goToPage,
     nextPage,
     prevPage,
+    handleSearchChange,
+    handlePositionFilterChange,
+    searchTerm,
+    positionFilter,
   } = useEmployees();
-  const [search, setSearch] = useState("");
-  const [positionFilter, setPositionFilter] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
   const [notification, setNotification] = useState<{
@@ -36,18 +38,6 @@ function App() {
     message: "",
     type: "success",
     isVisible: false,
-  });
-
-  const filtered = employees.filter((e) => {
-    const matchesSearch =
-      search === "" ||
-      e.name.toLowerCase().includes(search.toLowerCase()) ||
-      e.email.toLowerCase().includes(search.toLowerCase());
-
-    const matchesPosition =
-      positionFilter === "" || e.position === positionFilter;
-
-    return matchesSearch && matchesPosition;
   });
 
   const showNotification = (
@@ -120,17 +110,17 @@ function App() {
         >
           <div className="dashboard-section">
             <SearchBar
-              value={search}
-              onChange={setSearch}
+              value={searchTerm}
+              onChange={handleSearchChange}
               positionFilter={positionFilter}
-              onPositionFilterChange={setPositionFilter}
+              onPositionFilterChange={handlePositionFilterChange}
               showAdvanced={true}
             />
           </div>
 
           <div className="dashboard-section">
             <EmployeeTable
-              employees={filtered}
+              employees={employees}
               pagination={pagination}
               loading={loading}
               onEdit={(emp) => {
