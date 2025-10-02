@@ -1,0 +1,184 @@
+import { useState } from "react";
+import useEmployees from "./hooks/useEmployees";
+import Header from "./components/Layout/Header/Header";
+import Container from "./components/Layout/Container/Container";
+import Dashboard from "./components/Layout/Dashboard/Dashboard";
+import EmployeeTable from "./components/Employee/EmployeeTable/EmployeeTable";
+import SearchBar from "./components/Employee/SearchBar/SearchBar";
+import Modal from "./components/common/Modal/Modal";
+import EmployeeForm from "./components/Employee/EmployeeForm/EmployeeForm";
+import Notification from "./components/common/Notification/Notification";
+import type { Employee } from "./types/employee";
+import "./App.css";
+
+function App() {
+  const {
+    employees,
+    pagination,
+    loading,
+    error,
+    createEmployee,
+    editEmployee,
+    removeEmployee,
+    goToPage,
+    nextPage,
+    prevPage,
+  } = useEmployees();
+  const [search, setSearch] = useState("");
+  const [positionFilter, setPositionFilter] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error" | "info";
+    isVisible: boolean;
+  }>({
+    message: "",
+    type: "success",
+    isVisible: false,
+  });
+
+  const filtered = employees.filter((e) => {
+    const matchesSearch =
+      search === "" ||
+      e.name.toLowerCase().includes(search.toLowerCase()) ||
+      e.email.toLowerCase().includes(search.toLowerCase());
+
+    const matchesPosition =
+      positionFilter === "" || e.position === positionFilter;
+
+    return matchesSearch && matchesPosition;
+  });
+
+  const showNotification = (
+    message: string,
+    type: "success" | "error" | "info"
+  ) => {
+    setNotification({ message, type, isVisible: true });
+  };
+
+  const handleCreateEmployee = async (data: Omit<Employee, "id">) => {
+    await createEmployee(data);
+    if (!error) {
+      showNotification(
+        `Employee "${data.name}" added successfully! 🎉`,
+        "success"
+      );
+    } else {
+      showNotification(error, "error");
+    }
+  };
+
+  const handleEditEmployee = async (id: number, data: Omit<Employee, "id">) => {
+    await editEmployee(id, data);
+    if (!error) {
+      showNotification(
+        `Employee "${data.name}" updated successfully! ✨`,
+        "success"
+      );
+    } else {
+      showNotification(error, "error");
+    }
+  };
+
+  const handleDeleteEmployee = async (id: number) => {
+    const employee = employees.find((emp) => emp.id === id);
+    await removeEmployee(id);
+    if (!error) {
+      showNotification(
+        `Employee "${employee?.name}" deleted successfully! ✅`,
+        "success"
+      );
+    } else {
+      showNotification(error, "error");
+    }
+  };
+
+  const dashboardStats = [
+    {
+      label: "Total Employees",
+      value: pagination?.totalEmployees || employees.length,
+      icon: <i className="fas fa-users"></i>,
+    },
+    {
+      label: "Managers",
+      value: employees.filter((e) => e.position === "Manager").length,
+      icon: <i className="fas fa-user-tie"></i>,
+    },
+  ];
+
+  return (
+    <div className="app">
+      <Header />
+      <Container>
+        <Dashboard
+          stats={dashboardStats}
+          onAddEmployee={() => {
+            setEditingEmployee(null);
+            setModalOpen(true);
+          }}
+        >
+          <div className="dashboard-section">
+            <SearchBar
+              value={search}
+              onChange={setSearch}
+              positionFilter={positionFilter}
+              onPositionFilterChange={setPositionFilter}
+              showAdvanced={true}
+            />
+          </div>
+
+          <div className="dashboard-section">
+            <EmployeeTable
+              employees={filtered}
+              pagination={pagination}
+              loading={loading}
+              onEdit={(emp) => {
+                setEditingEmployee(emp);
+                setModalOpen(true);
+              }}
+              onDelete={handleDeleteEmployee}
+              onPageChange={goToPage}
+              onNextPage={nextPage}
+              onPrevPage={prevPage}
+            />
+          </div>
+        </Dashboard>
+
+        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+          <EmployeeForm
+            onSubmit={(data) =>
+              editingEmployee
+                ? handleEditEmployee(editingEmployee.id, data)
+                : handleCreateEmployee(data)
+            }
+            initialData={editingEmployee}
+            onClose={() => setModalOpen(false)}
+          />
+        </Modal>
+
+        {/* Global Error Display */}
+        {error && (
+          <Notification
+            message={error}
+            type="error"
+            isVisible={true}
+            onClose={() => {}}
+          />
+        )}
+
+        {/* Success/Info Notifications */}
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          isVisible={notification.isVisible}
+          onClose={() =>
+            setNotification((prev) => ({ ...prev, isVisible: false }))
+          }
+        />
+      </Container>
+    </div>
+  );
+}
+
+export default App;

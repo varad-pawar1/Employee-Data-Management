@@ -1,0 +1,16 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 10px;
+    /* background: white; */
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); */
+    /* border: 1px solid #e1e5e9; */
+}
+
+@media (max-width: 560px) {
+
+    .container {
+        padding: 10px;
+    }
+}
