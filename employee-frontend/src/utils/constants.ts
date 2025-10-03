@@ -17,10 +17,10 @@ export const ROLES = [
 
 // Only runtime values here (MESSAGES, VALIDATION)
 export const MESSAGES = {
-  EMPLOYEE_ADDED: "Employee added successfully ✅",
-  EMPLOYEE_UPDATED: "Employee updated successfully 🎉",
-  EMPLOYEE_DELETED: "Employee deleted successfully ✅",
-  ERROR: "Something went wrong ❌",
+  EMPLOYEE_ADDED: "Employee added successfully",
+  EMPLOYEE_UPDATED: "Employee updated successfully",
+  EMPLOYEE_DELETED: "Employee deleted successfully",
+  ERROR: "Something went wrong",
 };
 
 export const VALIDATION = {

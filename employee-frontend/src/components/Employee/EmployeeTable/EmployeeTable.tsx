@@ -82,7 +82,9 @@ const EmployeeTable = ({
   if (employees.length === 0) {
     return (
       <div className="table-empty">
-        <div className="empty-icon">👥</div>
+        <div className="empty-icon">
+          <i className="fa-solid fa-users"></i>
+        </div>
         <h3>No employees found</h3>
         <p>Start by adding your first employee to the system.</p>
       </div>

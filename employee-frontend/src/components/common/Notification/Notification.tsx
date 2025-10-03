@@ -9,12 +9,12 @@ interface NotificationProps {
   duration?: number;
 }
 
-export default function Notification({ 
-  message, 
-  type, 
-  isVisible, 
-  onClose, 
-  duration = 3000 
+export default function Notification({
+  message,
+  type,
+  isVisible,
+  onClose,
+  duration = 3000,
 }: NotificationProps) {
   useEffect(() => {
     if (isVisible && duration > 0) {
@@ -29,13 +29,13 @@ export default function Notification({
     <div className={`notification notification-${type}`}>
       <div className="notification-content">
         <span className="notification-icon">
-          {type === "success" && "✅"}
-          {type === "error" && "❌"}
-          {type === "info" && "ℹ️"}
+          {type === "success"}
+          {type === "error"}
+          {type === "info"}
         </span>
         <span className="notification-message">{message}</span>
         <button className="notification-close" onClick={onClose}>
-          ×
+          <i className="fa-solid fa-xmark"></i>
         </button>
       </div>
     </div>

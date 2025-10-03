@@ -1,0 +1,9 @@
+# Backend ignores
+node_modules/
+dist/
+.env
+Data_Base/*.db*
+coverage/
+.tsbuildinfo
+
+

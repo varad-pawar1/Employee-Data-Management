@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import {
     createEmployee,
     getEmployees,
@@ -6,10 +6,11 @@ import {
     updateEmployee,
     deleteEmployee,
 } from "../controllers/employeesController.js";
+import type { SQLiteDatabase } from "../config/connectDB.js";
 
-const router = express.Router();
+const router: Router = express.Router();
 
-export const employeesRoutes = (db) => {
+export const employeesRoutes = (db: SQLiteDatabase): Router => {
     router.post("/", createEmployee(db));
     router.get("/", getEmployees(db));
     router.get("/:id", getEmployeeById(db));
@@ -17,3 +18,5 @@ export const employeesRoutes = (db) => {
     router.delete("/:id", deleteEmployee(db));
     return router;
 };
+
+

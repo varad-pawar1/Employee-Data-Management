@@ -1,0 +1,21 @@
+# Root ignores for Node + TypeScript mono-repo
+node_modules/
+dist/
+.env
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Editor/OS
+.vscode/
+.idea/
+*.swp
+
+# Build outputs
+**/dist/
+**/.tsbuildinfo
+
+

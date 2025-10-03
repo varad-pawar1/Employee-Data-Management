@@ -85,7 +85,7 @@ export default function useEmployees() {
       setLoading(true);
       setError(null);
       const response = await addEmployee(employeeData);
-      console.log("✅ Employee added successfully:", response.data.name);
+      console.log("Employee added successfully:", response.data.name);
       await loadEmployees();
     } catch (err) {
       setError("Failed to add employee. Please try again.");
@@ -103,7 +103,7 @@ export default function useEmployees() {
       setLoading(true);
       setError(null);
       const response = await updateEmployee(id, employeeData);
-      console.log("✅ Employee updated successfully:", response.data.name);
+      console.log("Employee updated successfully:", response.data.name);
       await loadEmployees();
     } catch (err) {
       setError("Failed to update employee. Please try again.");
@@ -121,7 +121,7 @@ export default function useEmployees() {
       await deleteEmployee(id);
 
       if (employeeToDelete) {
-        console.log("✅ Employee deleted successfully:", employeeToDelete.name);
+        console.log("Employee deleted successfully:", employeeToDelete.name);
       }
 
       // Check if we need to go to previous page after deletion

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useEmployees from "./hooks/useEmployees";
 import Header from "./components/Layout/Header/Header";
 import Container from "./components/Layout/Container/Container";
@@ -28,8 +28,18 @@ function App() {
     searchTerm,
     positionFilter,
   } = useEmployees();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
+
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (error) {
+      setLocalError(error);
+    }
+  }, [error]);
+
   const [notification, setNotification] = useState<{
     message: string;
     type: "success" | "error" | "info";
@@ -51,7 +61,7 @@ function App() {
     await createEmployee(data);
     if (!error) {
       showNotification(
-        `Employee "${data.name}" added successfully! 🎉`,
+        `Employee "${data.name}" added successfully!`,
         "success"
       );
     } else {
@@ -63,7 +73,7 @@ function App() {
     await editEmployee(id, data);
     if (!error) {
       showNotification(
-        `Employee "${data.name}" updated successfully! ✨`,
+        `Employee "${data.name}" updated successfully!`,
         "success"
       );
     } else {
@@ -76,7 +86,7 @@ function App() {
     await removeEmployee(id);
     if (!error) {
       showNotification(
-        `Employee "${employee?.name}" deleted successfully! ✅`,
+        `Employee "${employee?.name}" deleted successfully!`,
         "success"
       );
     } else {
@@ -89,11 +99,6 @@ function App() {
       label: "Total Employees",
       value: pagination?.totalEmployees || employees.length,
       icon: <i className="fas fa-users"></i>,
-    },
-    {
-      label: "Managers",
-      value: employees.filter((e) => e.position === "Manager").length,
-      icon: <i className="fas fa-user-tie"></i>,
     },
   ];
 
@@ -147,17 +152,17 @@ function App() {
           />
         </Modal>
 
-        {/* Global Error Display */}
-        {error && (
+        {/*  Global Error Notification with working close button */}
+        {localError && (
           <Notification
-            message={error}
+            message={localError}
             type="error"
             isVisible={true}
-            onClose={() => {}}
+            onClose={() => setLocalError(null)}
           />
         )}
 
-        {/* Success/Info Notifications */}
+        {/* Success / Info Notifications */}
         <Notification
           message={notification.message}
           type={notification.type}
