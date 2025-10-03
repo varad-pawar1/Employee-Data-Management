@@ -11,7 +11,7 @@ It uses an **Express + SQLite (TypeScript)** backend and a **React + Vite (TypeS
 - **Backend API:** [https://employee-backend-o6uz.onrender.com](https://employee-backend-o6uz.onrender.com)
 
 ---
-
+  
 ## 🧠 Tech Stack
 
 | Layer    | Technology                            |
