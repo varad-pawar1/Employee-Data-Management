@@ -2,7 +2,7 @@
 node_modules/
 dist/
 .env
-Data_Base/employees.db
+# Data_Base/employees.db
 coverage/
 .tsbuildinfo
 

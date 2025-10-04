@@ -1,4 +1,5 @@
 import "./Header.css";
+import logo from "../../../assets/employee-management-logo.png";
 
 export default function Header() {
   return (
@@ -6,11 +7,7 @@ export default function Header() {
       <div className="header-container">
         {/* Brand Section */}
         <div className="header-brand">
-          <img
-            className="brand-logo"
-            src="https://tse1.mm.bing.net/th/id/OET.7252da000e8341b2ba1fb61c275c1f30?w=594&h=594&c=7&rs=1&o=5&pid=1.9"
-            alt="Logo"
-          />
+          <img className="brand-logo" src={logo} alt="Logo" />
         </div>
 
         {/* User Section */}
